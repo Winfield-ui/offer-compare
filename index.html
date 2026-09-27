@@ -1,0 +1,5799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<meta
+  name="theme-color"
+  content="#F4F2EC"
+>
+
+<title>Offer Compare｜两个工作怎么选？</title>
+
+<style>
+
+/* =========================================================
+   DESIGN TOKENS
+========================================================= */
+
+:root{
+
+  /* background */
+  --canvas:#F4F2EC;
+  --canvas-2:#EEECE5;
+
+  /* surfaces */
+  --surface:#FFFEFB;
+  --surface-soft:#F8F7F2;
+  --surface-deep:#EEEDE7;
+
+  /* text */
+  --ink:#151715;
+  --ink-2:#4F554F;
+  --ink-3:#858B84;
+  --ink-4:#A5AAA3;
+
+  /* border */
+  --line:#E6E3DB;
+  --line-strong:#D9D5CA;
+
+  /* primary - quiet green */
+  --brand:#173E35;
+  --brand-2:#245D4F;
+  --brand-soft:#E5EEE9;
+  --brand-lime:#CFE66A;
+
+  /* offer accents */
+  --offer-a:#5266D8;
+  --offer-a-soft:#EDF0FF;
+
+  --offer-b:#C77B30;
+  --offer-b-soft:#FFF0DF;
+
+  /* status */
+  --positive:#24714F;
+
+  /* radius */
+  --r-xl:28px;
+  --r-lg:22px;
+  --r-md:17px;
+  --r-sm:12px;
+
+  /* shadow */
+  --shadow-card:
+    0 1px 1px rgba(27,31,27,.03),
+    0 10px 30px rgba(27,31,27,.055);
+
+  --shadow-float:
+    0 12px 34px rgba(18,25,21,.10);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html{
+  background:var(--canvas);
+}
+
+body{
+
+  margin:0;
+
+  background:
+    radial-gradient(
+      circle at 50% -180px,
+      #FFFFFF 0,
+      #F8F6F0 260px,
+      var(--canvas) 500px
+    );
+
+  color:var(--ink);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.985);
+}
+
+::selection{
+  background:#DDE8D4;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+
+  width:min(540px,100%);
+  min-height:100vh;
+
+  margin:0 auto;
+
+  padding:
+    max(12px,env(safe-area-inset-top))
+    14px
+    calc(92px + env(safe-area-inset-bottom));
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  min-height:38px;
+
+  padding:
+    2px
+    4px
+    12px;
+}
+
+.brand{
+
+  display:flex;
+  align-items:center;
+  gap:9px;
+
+  color:#30352F;
+
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.02em;
+}
+
+.brand-mark{
+
+  display:grid;
+  place-items:center;
+
+  width:25px;
+  height:25px;
+
+  border-radius:9px;
+
+  background:var(--brand);
+  color:#fff;
+
+  font-size:12px;
+  font-weight:850;
+
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+.privacy{
+
+  display:flex;
+  align-items:center;
+  gap:5px;
+
+  color:var(--ink-3);
+
+  font-size:10px;
+  font-weight:600;
+}
+
+.privacy-dot{
+
+  width:6px;
+  height:6px;
+
+  border-radius:50%;
+
+  background:#77A48D;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-area{
+
+  display:none;
+
+  position:sticky;
+  top:0;
+  z-index:30;
+
+  margin:
+    0
+    -4px
+    12px;
+
+  padding:
+    8px
+    4px
+    12px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(244,242,236,.98),
+      rgba(244,242,236,.94)
+    );
+
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.progress-area.show{
+  display:block;
+}
+
+.progress-meta{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:8px;
+}
+
+.progress-meta strong{
+
+  color:#3F443F;
+
+  font-size:11px;
+  font-weight:780;
+}
+
+.progress-meta span{
+
+  color:var(--ink-3);
+
+  font-size:10px;
+  font-weight:600;
+}
+
+.progress-track{
+
+  width:100%;
+  height:5px;
+
+  overflow:hidden;
+
+  border-radius:999px;
+
+  background:#DFDDD5;
+}
+
+.progress-fill{
+
+  width:0;
+  height:100%;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--brand),
+      #55766C
+    );
+
+  transition:width .32s cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   SCREENS
+========================================================= */
+
+.screen{
+  display:none;
+}
+
+.screen.active{
+
+  display:block;
+
+  animation:
+    screenIn
+    .28s
+    cubic-bezier(.2,.7,.2,1);
+}
+
+@keyframes screenIn{
+
+  from{
+    opacity:0;
+    transform:translateY(9px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.card{
+
+  position:relative;
+
+  overflow:hidden;
+
+  padding:
+    23px
+    18px;
+
+  border:
+    1px
+    solid
+    rgba(218,215,205,.88);
+
+  border-radius:var(--r-xl);
+
+  background:
+    rgba(255,254,251,.96);
+
+  box-shadow:var(--shadow-card);
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+h1,
+h2,
+h3,
+p{
+  margin-top:0;
+}
+
+h1{
+
+  margin-bottom:14px;
+
+  font-size:31px;
+  line-height:1.16;
+
+  font-weight:760;
+  letter-spacing:-.045em;
+}
+
+h2{
+
+  margin-bottom:8px;
+
+  font-size:23px;
+  line-height:1.30;
+
+  font-weight:760;
+  letter-spacing:-.03em;
+}
+
+.eyebrow{
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  min-height:27px;
+
+  margin-bottom:15px;
+
+  padding:
+    5px
+    10px;
+
+  border:
+    1px
+    solid
+    #E7E4DB;
+
+  border-radius:999px;
+
+  background:#F8F7F2;
+
+  color:#656B64;
+
+  font-size:10px;
+  font-weight:760;
+  letter-spacing:.015em;
+}
+
+.eyebrow-dot{
+
+  width:6px;
+  height:6px;
+
+  border-radius:99px;
+
+  background:var(--brand-2);
+}
+
+.step-desc{
+
+  margin:
+    0
+    0
+    20px;
+
+  color:var(--ink-2);
+
+  font-size:13px;
+  line-height:1.72;
+}
+
+
+/* =========================================================
+   INTRO / HERO
+========================================================= */
+
+.hero{
+
+  padding:
+    29px
+    21px
+    21px;
+}
+
+.hero:before{
+
+  content:"";
+
+  position:absolute;
+
+  width:180px;
+  height:180px;
+
+  right:-80px;
+  top:-95px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(207,230,106,.25),
+      rgba(207,230,106,0)
+    );
+
+  pointer-events:none;
+}
+
+.hero-title-accent{
+  color:var(--brand);
+}
+
+.hero-lead{
+
+  max-width:430px;
+
+  margin:0;
+
+  color:var(--ink-2);
+
+  font-size:14px;
+  line-height:1.78;
+}
+
+.hero-highlight{
+
+  position:relative;
+
+  margin:
+    23px
+    0
+    18px;
+
+  padding:
+    16px
+    16px
+    16px
+    17px;
+
+  overflow:hidden;
+
+  border:
+    1px
+    solid
+    #DBE3DD;
+
+  border-radius:18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #EEF4F0,
+      #F8FAF6
+    );
+}
+
+.hero-highlight:before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:4px;
+
+  background:var(--brand-2);
+}
+
+.hero-highlight strong{
+
+  display:block;
+
+  margin-bottom:5px;
+
+  color:#22352F;
+
+  font-size:13px;
+  font-weight:800;
+}
+
+.hero-highlight p{
+
+  margin:0;
+
+  color:#59655F;
+
+  font-size:11px;
+  line-height:1.65;
+}
+
+.feature-list{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+
+  margin:
+    18px
+    0
+    22px;
+}
+
+.feature{
+
+  position:relative;
+
+  min-height:94px;
+
+  padding:
+    13px
+    13px
+    12px;
+
+  border:
+    1px
+    solid
+    #E9E6DE;
+
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #FAF9F5,
+      #F7F6F1
+    );
+}
+
+.feature-icon{
+
+  display:grid;
+  place-items:center;
+
+  width:29px;
+  height:29px;
+
+  border-radius:10px;
+
+  background:#ECEDE7;
+
+  color:#454B45;
+
+  font-size:14px;
+  font-weight:800;
+}
+
+.feature strong{
+
+  display:block;
+
+  margin-top:9px;
+
+  font-size:12px;
+  font-weight:780;
+}
+
+.feature span{
+
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--ink-3);
+
+  font-size:10px;
+  line-height:1.4;
+}
+
+.hero-foot{
+
+  margin-top:11px;
+
+  text-align:center;
+
+  color:var(--ink-4);
+
+  font-size:9.5px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn{
+
+  position:relative;
+
+  width:100%;
+  min-height:52px;
+
+  border:0;
+  border-radius:15px;
+
+  padding:
+    13px
+    16px;
+
+  font-size:13px;
+  font-weight:770;
+
+  transition:
+    transform .12s ease,
+    box-shadow .15s ease,
+    background .15s ease;
+}
+
+.btn-primary{
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      180deg,
+      #214C40,
+      var(--brand)
+    );
+
+  box-shadow:
+    0 9px 20px
+    rgba(23,62,53,.18),
+    inset
+    0 1px 0
+    rgba(255,255,255,.12);
+}
+
+.btn-primary:hover{
+  box-shadow:
+    0 11px 26px
+    rgba(23,62,53,.22);
+}
+
+.btn-secondary{
+
+  color:#4A504A;
+
+  background:#EEEDE8;
+
+  box-shadow:
+    inset 0 0 0 1px
+    #E1DED5;
+}
+
+.navigation{
+
+  position:sticky;
+  bottom:
+    calc(8px + env(safe-area-inset-bottom));
+  z-index:18;
+
+  display:grid;
+  grid-template-columns:88px 1fr;
+  gap:8px;
+
+  margin-top:24px;
+
+  padding:
+    8px;
+
+  border:
+    1px
+    solid
+    rgba(220,217,208,.86);
+
+  border-radius:20px;
+
+  background:
+    rgba(251,250,246,.89);
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  box-shadow:var(--shadow-float);
+}
+
+.navigation.single{
+  grid-template-columns:1fr;
+}
+
+
+/* =========================================================
+   PREFERENCE
+========================================================= */
+
+.preference-tip{
+
+  margin-bottom:15px;
+
+  padding:
+    13px
+    14px;
+
+  border-radius:15px;
+
+  background:#F6F5F0;
+
+  color:#666C65;
+
+  font-size:11px;
+  line-height:1.65;
+}
+
+.preference-tip strong{
+  color:#2D322D;
+}
+
+.preference-list{
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.pref-item{
+
+  position:relative;
+
+  width:100%;
+  min-height:73px;
+
+  display:grid;
+  grid-template-columns:40px 1fr auto;
+  align-items:center;
+  gap:10px;
+
+  border:
+    1.5px
+    solid
+    #E6E3DB;
+
+  border-radius:17px;
+
+  padding:
+    11px
+    12px;
+
+  background:#FFFEFB;
+
+  text-align:left;
+
+  transition:
+    border-color .15s ease,
+    background .15s ease,
+    box-shadow .15s ease;
+}
+
+.pref-item:hover{
+  border-color:#CBC7BD;
+}
+
+.pref-item.active-1{
+
+  border-color:#4E6A60;
+
+  background:
+    linear-gradient(
+      145deg,
+      #F1F6F3,
+      #FBFCF9
+    );
+
+  box-shadow:
+    inset
+    0 0 0 1px
+    rgba(78,106,96,.08);
+}
+
+.pref-item.active-2{
+
+  border-color:#B9B5AA;
+
+  background:#FAF9F5;
+}
+
+.pref-icon{
+
+  display:grid;
+  place-items:center;
+
+  width:38px;
+  height:38px;
+
+  border-radius:13px;
+
+  background:#F0EFE9;
+
+  color:#3F453F;
+
+  font-size:16px;
+  font-weight:750;
+}
+
+.active-1 .pref-icon{
+
+  background:#DDEAE3;
+  color:#22483D;
+}
+
+.pref-copy strong{
+
+  display:block;
+
+  font-size:13px;
+  font-weight:780;
+}
+
+.pref-copy span{
+
+  display:block;
+
+  margin-top:3px;
+
+  color:var(--ink-3);
+
+  font-size:10px;
+  line-height:1.4;
+}
+
+.pref-tag{
+
+  display:none;
+
+  padding:
+    5px
+    7px;
+
+  border-radius:999px;
+
+  font-size:9px;
+  font-weight:760;
+  white-space:nowrap;
+}
+
+.active-1 .pref-tag{
+
+  display:block;
+
+  background:var(--brand);
+  color:white;
+}
+
+.active-2 .pref-tag{
+
+  display:block;
+
+  background:#EBE9E3;
+  color:#656A64;
+}
+
+.weight-summary{
+
+  margin-top:16px;
+
+  padding:
+    13px;
+
+  border:
+    1px
+    solid
+    #E8E5DD;
+
+  border-radius:16px;
+
+  background:#F9F8F4;
+}
+
+.weight-summary-title{
+
+  margin-bottom:8px;
+
+  color:#646A63;
+
+  font-size:10px;
+  font-weight:760;
+}
+
+.weight-chips{
+
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.weight-chip{
+
+  padding:
+    6px
+    8px;
+
+  border:
+    1px
+    solid
+    #E5E2D9;
+
+  border-radius:9px;
+
+  background:#FFFEFB;
+
+  color:#5C625C;
+
+  font-size:9.5px;
+  font-weight:650;
+}
+
+.adjust-link{
+
+  margin-top:11px;
+
+  border:0;
+
+  padding:0;
+
+  background:none;
+
+  color:#68706A;
+
+  font-size:10px;
+  font-weight:650;
+
+  text-decoration:
+    underline
+    dotted;
+  text-underline-offset:3px;
+}
+
+.advanced-weight{
+
+  display:none;
+
+  margin-top:13px;
+  padding-top:7px;
+
+  border-top:
+    1px
+    solid
+    #E7E4DB;
+}
+
+.advanced-weight.show{
+  display:block;
+}
+
+.weight-row{
+
+  display:grid;
+  grid-template-columns:84px 1fr 34px;
+  align-items:center;
+  gap:7px;
+
+  min-height:45px;
+
+  border-bottom:
+    1px
+    solid
+    #EBE8E0;
+}
+
+.weight-row:last-child{
+  border-bottom:0;
+}
+
+.weight-row label{
+
+  color:#505650;
+
+  font-size:10.5px;
+  font-weight:700;
+}
+
+.weight-row input{
+
+  width:100%;
+
+  accent-color:var(--brand-2);
+}
+
+.weight-percent{
+
+  color:#7A807A;
+
+  text-align:right;
+
+  font-size:9.5px;
+  font-weight:650;
+}
+
+
+/* =========================================================
+   OFFER HEADER
+========================================================= */
+
+.offer-header{
+
+  position:sticky;
+  top:50px;
+  z-index:15;
+
+  display:grid;
+  grid-template-columns:94px 1fr 1fr;
+  gap:7px;
+
+  margin:
+    0
+    -2px
+    2px;
+
+  padding:
+    7px
+    2px;
+
+  background:
+    rgba(255,254,251,.95);
+
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+
+.offer-label{
+
+  min-height:34px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:11px;
+
+  font-size:10px;
+  font-weight:780;
+}
+
+.offer-label.a{
+
+  color:#4153C5;
+  background:var(--offer-a-soft);
+
+  box-shadow:
+    inset 0 0 0 1px
+    #E0E5FF;
+}
+
+.offer-label.b{
+
+  color:#A65E1C;
+  background:var(--offer-b-soft);
+
+  box-shadow:
+    inset 0 0 0 1px
+    #F8DEC4;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-row{
+
+  padding:
+    15px
+    0;
+
+  border-bottom:
+    1px
+    solid
+    #ECE9E1;
+}
+
+.form-row:last-child{
+  border-bottom:0;
+}
+
+.form-label{
+
+  margin-bottom:9px;
+}
+
+.form-label strong{
+
+  display:block;
+
+  color:#303530;
+
+  font-size:12px;
+  font-weight:760;
+}
+
+.form-label small{
+
+  display:block;
+
+  margin-top:4px;
+
+  color:var(--ink-3);
+
+  font-size:9.5px;
+  line-height:1.45;
+}
+
+.pair{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.field-input{
+
+  width:100%;
+  height:48px;
+
+  border:
+    1px
+    solid
+    #DEDCD4;
+
+  border-radius:13px;
+
+  padding:
+    0
+    11px;
+
+  outline:none;
+
+  background:
+    #FBFAF6;
+
+  color:#242824;
+
+  font-size:14px;
+  font-weight:580;
+
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease;
+}
+
+.field-input.with-unit{
+  padding-right:51px;
+}
+
+.field-input:focus{
+
+  border-color:#9FAAA4;
+
+  background:#FFFEFB;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(62,96,84,.08);
+}
+
+.field-input::placeholder{
+  color:#AAAFA8;
+}
+
+.unit{
+
+  position:absolute;
+
+  right:10px;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  padding-left:4px;
+
+  background:#FBFAF6;
+
+  color:#999F98;
+
+  font-size:9.5px;
+
+  pointer-events:none;
+}
+
+
+/* =========================================================
+   RATINGS
+========================================================= */
+
+.rating-box{
+
+  margin-bottom:9px;
+
+  padding:
+    14px;
+
+  border:
+    1px
+    solid
+    #E7E4DC;
+
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #FFFDF9,
+      #FBFAF6
+    );
+}
+
+.rating-box:last-child{
+  margin-bottom:0;
+}
+
+.rating-title{
+
+  color:#333833;
+
+  font-size:12px;
+  font-weight:790;
+}
+
+.rating-help{
+
+  margin:
+    3px
+    0
+    12px;
+
+  color:var(--ink-3);
+
+  font-size:9.5px;
+  line-height:1.45;
+}
+
+.rating-line{
+
+  display:grid;
+  grid-template-columns:64px 1fr;
+  align-items:center;
+  gap:8px;
+
+  margin-top:8px;
+}
+
+.rating-company{
+
+  font-size:9.5px;
+  font-weight:800;
+}
+
+.rating-company.a{
+  color:var(--offer-a);
+}
+
+.rating-company.b{
+  color:var(--offer-b);
+}
+
+.rate-options{
+
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:5px;
+}
+
+.rate{
+
+  height:39px;
+
+  border:
+    1px
+    solid
+    #E2DFD7;
+
+  border-radius:11px;
+
+  background:#FFFEFB;
+
+  color:#747A73;
+
+  font-size:11px;
+  font-weight:760;
+
+  transition:
+    background .13s ease,
+    color .13s ease,
+    border-color .13s ease;
+}
+
+.rate.a-selected{
+
+  border-color:#6375E5;
+  background:var(--offer-a);
+  color:#fff;
+
+  box-shadow:
+    0 5px 11px
+    rgba(82,102,216,.15);
+}
+
+.rate.b-selected{
+
+  border-color:#D28A43;
+  background:var(--offer-b);
+  color:#fff;
+
+  box-shadow:
+    0 5px 11px
+    rgba(199,123,48,.15);
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result-intro{
+
+  text-align:center;
+}
+
+.result-intro h2{
+
+  margin-bottom:5px;
+}
+
+.result-intro p{
+
+  max-width:370px;
+
+  margin:
+    0
+    auto;
+
+  color:var(--ink-3);
+
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* ===== result wallet card ===== */
+
+.score-wallet{
+
+  position:relative;
+
+  overflow:hidden;
+
+  margin:
+    22px
+    0
+    16px;
+
+  padding:
+    18px
+    14px
+    16px;
+
+  border-radius:23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #183E35 0%,
+      #214C41 60%,
+      #2C5C4F 100%
+    );
+
+  color:white;
+
+  box-shadow:
+    0 16px 34px
+    rgba(23,62,53,.20);
+}
+
+.score-wallet:before{
+
+  content:"";
+
+  position:absolute;
+
+  width:180px;
+  height:180px;
+
+  right:-80px;
+  top:-100px;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(207,230,106,.25),
+      rgba(207,230,106,0)
+    );
+}
+
+.score-wallet-label{
+
+  position:relative;
+  z-index:2;
+
+  margin-bottom:13px;
+
+  color:rgba(255,255,255,.64);
+
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.07em;
+
+  text-transform:uppercase;
+}
+
+.score-panel{
+
+  position:relative;
+  z-index:2;
+
+  display:grid;
+  grid-template-columns:1fr 36px 1fr;
+  align-items:center;
+  gap:4px;
+}
+
+.score-col{
+  text-align:center;
+}
+
+.score-company{
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  color:rgba(255,255,255,.78);
+
+  font-size:10.5px;
+  font-weight:700;
+}
+
+.score-number{
+
+  margin:
+    7px
+    0
+    5px;
+
+  color:white;
+
+  font-size:50px;
+  line-height:1;
+
+  font-weight:770;
+  letter-spacing:-.06em;
+}
+
+.score-caption{
+
+  color:rgba(255,255,255,.54);
+
+  font-size:8.5px;
+}
+
+.score-vs{
+
+  text-align:center;
+
+  color:rgba(255,255,255,.38);
+
+  font-size:9px;
+  font-weight:800;
+}
+
+
+/* ===== conclusion ===== */
+
+.result-conclusion{
+
+  position:relative;
+
+  padding:
+    15px
+    15px
+    15px
+    16px;
+
+  overflow:hidden;
+
+  border:
+    1px
+    solid
+    #E5E5DC;
+
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #F7F8F3,
+      #F4F5F0
+    );
+}
+
+.result-conclusion:before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:3px;
+
+  background:var(--brand-2);
+}
+
+.result-conclusion strong{
+
+  display:block;
+
+  color:#2D3934;
+
+  font-size:13px;
+  line-height:1.55;
+}
+
+.result-conclusion p{
+
+  margin:
+    6px
+    0
+    0;
+
+  color:#66706A;
+
+  font-size:10.5px;
+  line-height:1.68;
+}
+
+
+/* ===== sections ===== */
+
+.result-section{
+
+  margin-top:23px;
+}
+
+.result-section-title{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:10px;
+
+  color:#303530;
+
+  font-size:14px;
+  font-weight:790;
+}
+
+
+/* ===== data cards ===== */
+
+.data-grid{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.data-card{
+
+  min-height:78px;
+
+  padding:
+    13px
+    12px;
+
+  border:
+    1px
+    solid
+    #E8E5DD;
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #FAF9F5,
+      #F7F6F1
+    );
+}
+
+.data-card span{
+
+  display:block;
+
+  color:#8B9089;
+
+  font-size:8.8px;
+  line-height:1.35;
+}
+
+.data-card strong{
+
+  display:block;
+
+  margin-top:7px;
+
+  color:#2B302B;
+
+  font-size:16px;
+  font-weight:760;
+  letter-spacing:-.025em;
+}
+
+
+/* ===== exchanges ===== */
+
+.exchange-box{
+
+  overflow:hidden;
+
+  border:
+    1px
+    solid
+    #E4E2D9;
+
+  border-radius:18px;
+
+  background:#FFFEFB;
+}
+
+.exchange-item{
+
+  position:relative;
+
+  padding:
+    14px
+    14px
+    14px
+    17px;
+
+  border-bottom:
+    1px
+    solid
+    #EBE8E0;
+}
+
+.exchange-item:last-child{
+  border-bottom:0;
+}
+
+.exchange-item:before{
+
+  content:"";
+
+  position:absolute;
+
+  left:8px;
+  top:20px;
+
+  width:3px;
+  height:15px;
+
+  border-radius:99px;
+
+  background:var(--brand-lime);
+}
+
+.exchange-item strong{
+
+  display:block;
+
+  color:#323832;
+
+  font-size:11.5px;
+  line-height:1.55;
+}
+
+.exchange-item p{
+
+  margin:
+    6px
+    0
+    0;
+
+  color:#697069;
+
+  font-size:10px;
+  line-height:1.68;
+}
+
+
+/* ===== compare ===== */
+
+.compare-block{
+
+  margin-bottom:17px;
+}
+
+.compare-block:last-child{
+  margin-bottom:0;
+}
+
+.compare-title{
+
+  margin-bottom:8px;
+
+  color:#424842;
+
+  font-size:11px;
+  font-weight:770;
+}
+
+.compare-line{
+
+  display:grid;
+  grid-template-columns:60px 1fr 75px;
+  align-items:center;
+  gap:7px;
+
+  margin:
+    7px
+    0;
+}
+
+.compare-name{
+
+  overflow:hidden;
+
+  color:#666C65;
+
+  font-size:9px;
+
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.compare-track{
+
+  height:7px;
+
+  overflow:hidden;
+
+  border-radius:999px;
+
+  background:#ECEAE4;
+}
+
+.compare-fill{
+
+  height:100%;
+
+  border-radius:999px;
+}
+
+.compare-fill.a{
+
+  background:
+    linear-gradient(
+      90deg,
+      #6373D8,
+      #7D8BEE
+    );
+}
+
+.compare-fill.b{
+
+  background:
+    linear-gradient(
+      90deg,
+      #C77B30,
+      #E6A25F
+    );
+}
+
+.compare-value{
+
+  color:#3C423D;
+
+  text-align:right;
+
+  font-size:9px;
+  font-weight:740;
+}
+
+
+/* ===== insights ===== */
+
+.insight-panel{
+
+  padding:
+    14px
+    15px;
+
+  border-radius:17px;
+
+  background:#F4F5EF;
+
+  box-shadow:
+    inset
+    0 0 0 1px
+    #E8E9E1;
+}
+
+.insight-list{
+
+  margin:0;
+  padding-left:16px;
+
+  color:#59605A;
+
+  font-size:10.5px;
+  line-height:1.82;
+}
+
+.insight-list li::marker{
+  color:#7A978C;
+}
+
+
+/* ===== result buttons ===== */
+
+.result-actions{
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+
+  margin-top:23px;
+}
+
+.disclaimer{
+
+  max-width:390px;
+
+  margin:
+    12px
+    auto
+    0;
+
+  color:#A0A59E;
+
+  font-size:8.8px;
+  line-height:1.55;
+  text-align:center;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+  display:none;
+
+  position:fixed;
+
+  left:50%;
+  bottom:
+    calc(
+      24px
+      +
+      env(safe-area-inset-bottom)
+    );
+
+  z-index:100;
+
+  transform:translateX(-50%);
+
+  max-width:88%;
+
+  padding:
+    10px
+    14px;
+
+  border-radius:999px;
+
+  background:#1B211E;
+  color:white;
+
+  box-shadow:var(--shadow-float);
+
+  font-size:10px;
+  font-weight:650;
+
+  white-space:nowrap;
+}
+
+.toast.show{
+  display:block;
+}
+
+
+/* =========================================================
+   SMALL DEVICES
+========================================================= */
+
+@media(max-width:380px){
+
+  .app{
+
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .card{
+
+    padding-left:15px;
+    padding-right:15px;
+  }
+
+  .hero{
+
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  h1{
+    font-size:28px;
+  }
+
+  .offer-header{
+    grid-template-columns:77px 1fr 1fr;
+  }
+
+  .rating-line{
+    grid-template-columns:55px 1fr;
+  }
+
+  .rate-options{
+    gap:4px;
+  }
+
+  .rate{
+    padding:0;
+  }
+
+  .compare-line{
+    grid-template-columns:54px 1fr 70px;
+  }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+       TOP
+  ====================================================== -->
+
+  <div class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        O
+      </div>
+
+      Offer Compare
+
+    </div>
+
+
+    <div class="privacy">
+
+      <span class="privacy-dot"></span>
+
+      本地计算 · 无需登录
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       PROGRESS
+  ====================================================== -->
+
+  <div
+    class="progress-area"
+    id="progressArea"
+  >
+
+    <div class="progress-meta">
+
+      <strong id="progressLabel">
+        步骤 1 / 4
+      </strong>
+
+      <span id="progressText">
+        选择你的重点
+      </span>
+
+    </div>
+
+
+    <div class="progress-track">
+
+      <div
+        class="progress-fill"
+        id="progressFill"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       INTRO
+  ====================================================== -->
+
+  <section
+    class="screen active"
+    id="intro"
+  >
+
+    <div class="card hero">
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        两份 Offer · 约 3 分钟
+
+      </span>
+
+
+      <h1>
+        两个工作，<br>
+        <span class="hero-title-accent">
+          到底怎么选？
+        </span>
+      </h1>
+
+
+      <p class="hero-lead">
+
+        一个工资高，一个发展好；
+        一个离家近，一个平台更大。
+
+        <br><br>
+
+        别只盯着月薪。
+        把钱、时间和未来一起算清楚，
+        再看看你真正需要取舍的是什么。
+
+      </p>
+
+
+      <div class="hero-highlight">
+
+        <strong>
+          真正重要的，不只是“哪份分数高”
+        </strong>
+
+        <p>
+          还要看清楚：
+          多拿的钱，需要交换多少工作时间、通勤和生活空间。
+        </p>
+
+      </div>
+
+
+      <div class="feature-list">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ¥
+          </div>
+
+          <strong>
+            年收入
+          </strong>
+
+          <span>
+            月薪、多薪、奖金一起算
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            h
+          </div>
+
+          <strong>
+            真实时薪
+          </strong>
+
+          <span>
+            工作和通勤全部计入
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ↗
+          </div>
+
+          <strong>
+            长期成长
+          </strong>
+
+          <span>
+            岗位、平台、领导一起看
+          </span>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ≈
+          </div>
+
+          <strong>
+            隐藏交换
+          </strong>
+
+          <span>
+            看懂高薪背后的代价
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="btn btn-primary"
+        onclick="start()"
+      >
+        开始对比
+      </button>
+
+
+      <div class="hero-foot">
+        所有数据仅保存在你的浏览器，不上传个人信息
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       STEP 1
+  ====================================================== -->
+
+  <section
+    class="screen"
+    id="step1"
+  >
+
+    <div class="card">
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        你的选择标准
+
+      </span>
+
+
+      <h2>
+        选工作时，你最看重什么？
+      </h2>
+
+
+      <p class="step-desc">
+
+        不同阶段的人，
+        对同一份 Offer 的判断可能完全不同。
+
+        <br>
+
+        先选择你最看重的两项。
+
+      </p>
+
+
+      <div class="preference-tip">
+
+        <strong>第一次点击</strong>
+        设为首要关注，
+
+        <strong>第二次点击</strong>
+        设为第二关注。
+
+        系统会自动生成一组合理权重。
+
+      </div>
+
+
+      <div
+        class="preference-list"
+        id="preferenceList"
+      ></div>
+
+
+      <div class="weight-summary">
+
+        <div class="weight-summary-title">
+          当前偏好比例
+        </div>
+
+
+        <div
+          class="weight-chips"
+          id="weightChips"
+        ></div>
+
+
+        <button
+          class="adjust-link"
+          onclick="toggleAdvancedWeight()"
+        >
+          想自己精细调整比例？
+        </button>
+
+
+        <div
+          class="advanced-weight"
+          id="advancedWeight"
+        ></div>
+
+      </div>
+
+
+      <div class="navigation single">
+
+        <button
+          class="btn btn-primary"
+          onclick="finishPreference()"
+        >
+          继续
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       STEP 2
+  ====================================================== -->
+
+  <section
+    class="screen"
+    id="step2"
+  >
+
+    <div class="card">
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        收入
+
+      </span>
+
+
+      <h2>
+        两份 Offer，一年到底能拿多少钱？
+      </h2>
+
+
+      <p class="step-desc">
+
+        把固定多薪、奖金和补贴拆开填写，
+        避免只比较月薪。
+
+      </p>
+
+
+      <div class="offer-header">
+
+        <div></div>
+
+        <div class="offer-label a">
+          Offer A
+        </div>
+
+        <div class="offer-label b">
+          Offer B
+        </div>
+
+      </div>
+
+
+      <div id="moneyForm"></div>
+
+
+      <div class="navigation">
+
+        <button
+          class="btn btn-secondary"
+          onclick="goStep(1)"
+        >
+          返回
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="finishMoney()"
+        >
+          继续
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       STEP 3
+  ====================================================== -->
+
+  <section
+    class="screen"
+    id="step3"
+  >
+
+    <div class="card">
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        时间成本
+
+      </span>
+
+
+      <h2>
+        这份工作每天会占用你多少时间？
+      </h2>
+
+
+      <p class="step-desc">
+
+        同样的工资，
+        双休和单休、20 分钟和 1 小时通勤，
+        可能是完全不同的生活。
+
+      </p>
+
+
+      <div class="offer-header">
+
+        <div></div>
+
+        <div class="offer-label a">
+          Offer A
+        </div>
+
+        <div class="offer-label b">
+          Offer B
+        </div>
+
+      </div>
+
+
+      <div id="timeForm"></div>
+
+
+      <div class="navigation">
+
+        <button
+          class="btn btn-secondary"
+          onclick="goStep(2)"
+        >
+          返回
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="goStep(4)"
+        >
+          继续
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       STEP 4
+  ====================================================== -->
+
+  <section
+    class="screen"
+    id="step4"
+  >
+
+    <div class="card">
+
+      <span class="eyebrow">
+
+        <span class="eyebrow-dot"></span>
+
+        工作体验
+
+      </span>
+
+
+      <h2>
+        最后看看工资表上看不到的东西
+      </h2>
+
+
+      <p class="step-desc">
+
+        根据你在面试、沟通和了解公司时掌握的信息，
+        直接选择 1～5 分。
+
+        <br>
+
+        1 = 很差，3 = 一般，5 = 很好。
+
+      </p>
+
+
+      <div id="qualityForm"></div>
+
+
+      <div class="navigation">
+
+        <button
+          class="btn btn-secondary"
+          onclick="goStep(3)"
+        >
+          返回
+        </button>
+
+        <button
+          class="btn btn-primary"
+          onclick="calculateResult()"
+        >
+          查看分析结果
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       RESULT
+  ====================================================== -->
+
+  <section
+    class="screen"
+    id="result"
+  >
+
+    <div class="card">
+
+      <div class="result-intro">
+
+        <span class="eyebrow">
+
+          <span class="eyebrow-dot"></span>
+
+          对比完成
+
+        </span>
+
+
+        <h2>
+          你的 Offer 对比结果
+        </h2>
+
+
+        <p>
+          不是替你做决定，
+          而是把两份工作的交换条件摆到台面上。
+        </p>
+
+      </div>
+
+
+      <div id="resultContent"></div>
+
+
+      <div class="result-actions">
+
+        <button
+          class="btn btn-primary"
+          onclick="copySummary()"
+        >
+          复制结果
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          onclick="goStep(1)"
+        >
+          修改条件
+        </button>
+
+      </div>
+
+
+      <div class="disclaimer">
+
+        匹配指数只基于你填写的信息和个人偏好，
+        用于帮助比较两份 Offer，
+        不代表工作本身的绝对优劣。
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
+
+<script>
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const STORE_KEY =
+  "offer-compare-mobile-v1";
+
+
+let preferenceOrder = [];
+
+let customWeightMode = false;
+
+let lastResult = null;
+
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const preferenceItems = [
+
+  {
+    key:"income",
+    icon:"¥",
+    name:"收入",
+    desc:"总包和现金回报"
+  },
+
+  {
+    key:"growth",
+    icon:"↗",
+    name:"成长",
+    desc:"技能、履历和长期发展"
+  },
+
+  {
+    key:"life",
+    icon:"☀",
+    name:"工作生活",
+    desc:"工时、加班和生活空间"
+  },
+
+  {
+    key:"stability",
+    icon:"◉",
+    name:"稳定性",
+    desc:"业务和岗位的不确定性"
+  },
+
+  {
+    key:"commute",
+    icon:"↔",
+    name:"通勤",
+    desc:"每天来回消耗的时间"
+  }
+
+];
+
+
+const qualityItems = [
+
+  {
+    key:"growth",
+    name:"职业成长",
+    desc:"能否学到未来更值钱的东西"
+  },
+
+  {
+    key:"fit",
+    name:"岗位匹配",
+    desc:"是否符合你真正想走的方向"
+  },
+
+  {
+    key:"industry",
+    name:"公司 / 行业前景",
+    desc:"平台、行业机会和未来认可度"
+  },
+
+  {
+    key:"manager",
+    name:"直属领导印象",
+    desc:"沟通方式、支持程度和带人感觉"
+  },
+
+  {
+    key:"stability",
+    name:"稳定性",
+    desc:"业务、组织以及岗位风险"
+  },
+
+  {
+    key:"balance",
+    name:"工作生活",
+    desc:"节奏、边界和长期可持续性"
+  }
+
+];
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+init();
+
+
+function init(){
+
+  buildPreferenceList();
+
+  buildAdvancedWeight();
+
+  buildMoneyForm();
+
+  buildTimeForm();
+
+  buildQualityForm();
+
+  loadState();
+
+  refreshPreferenceUI();
+
+  refreshWeights();
+
+  bindSaveEvents();
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function start(){
+
+  goStep(1);
+
+}
+
+
+function goStep(step){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(el=>{
+
+      el.classList.remove("active");
+
+    });
+
+
+  const screen =
+    document.getElementById(
+      `step${step}`
+    );
+
+
+  if(screen){
+
+    screen.classList.add("active");
+
+  }
+
+
+  updateProgress(step);
+
+  saveState();
+
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function showResult(){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(el=>{
+
+      el.classList.remove("active");
+
+    });
+
+
+  document
+    .getElementById("result")
+    .classList
+    .add("active");
+
+
+  document
+    .getElementById("progressArea")
+    .classList
+    .remove("show");
+
+
+  window.scrollTo({
+
+    top:0,
+    behavior:"smooth"
+
+  });
+
+}
+
+
+function updateProgress(step){
+
+  const area =
+    document.getElementById(
+      "progressArea"
+    );
+
+
+  area.classList.add("show");
+
+
+  const labels = {
+
+    1:"选择你的重点",
+    2:"填写收入",
+    3:"填写时间成本",
+    4:"补充工作体验"
+
+  };
+
+
+  document
+    .getElementById("progressLabel")
+    .textContent =
+      `步骤 ${step} / 4`;
+
+
+  document
+    .getElementById("progressText")
+    .textContent =
+      labels[step];
+
+
+  document
+    .getElementById("progressFill")
+    .style.width =
+      `${step * 25}%`;
+
+}
+
+
+/* =========================================================
+   STEP 1
+========================================================= */
+
+function buildPreferenceList(){
+
+  document
+    .getElementById(
+      "preferenceList"
+    )
+    .innerHTML =
+
+    preferenceItems
+      .map(item=>`
+
+        <button
+          type="button"
+          class="pref-item"
+          id="pref-${item.key}"
+          onclick="selectPreference('${item.key}')"
+        >
+
+          <div class="pref-icon">
+            ${item.icon}
+          </div>
+
+
+          <div class="pref-copy">
+
+            <strong>
+              ${item.name}
+            </strong>
+
+            <span>
+              ${item.desc}
+            </span>
+
+          </div>
+
+
+          <span
+            class="pref-tag"
+            id="pref-tag-${item.key}"
+          ></span>
+
+        </button>
+
+      `)
+      .join("");
+
+}
+
+
+function selectPreference(key){
+
+  const index =
+    preferenceOrder.indexOf(key);
+
+
+  if(index >= 0){
+
+    preferenceOrder.splice(
+      index,
+      1
+    );
+
+  }else{
+
+    if(
+      preferenceOrder.length >= 2
+    ){
+
+      preferenceOrder.shift();
+
+    }
+
+
+    preferenceOrder.push(key);
+
+  }
+
+
+  customWeightMode =
+    false;
+
+
+  applyAutoWeights();
+
+  refreshPreferenceUI();
+
+  refreshWeights();
+
+  saveState();
+
+}
+
+
+function refreshPreferenceUI(){
+
+  preferenceItems
+    .forEach(item=>{
+
+      const el =
+        document.getElementById(
+          `pref-${item.key}`
+        );
+
+
+      const tag =
+        document.getElementById(
+          `pref-tag-${item.key}`
+        );
+
+
+      el.classList.remove(
+        "active-1",
+        "active-2"
+      );
+
+
+      const index =
+        preferenceOrder.indexOf(
+          item.key
+        );
+
+
+      if(index === 0){
+
+        el.classList.add(
+          "active-1"
+        );
+
+        tag.textContent =
+          "首要关注";
+
+      }
+
+
+      if(index === 1){
+
+        el.classList.add(
+          "active-2"
+        );
+
+        tag.textContent =
+          "第二关注";
+
+      }
+
+    });
+
+}
+
+
+function applyAutoWeights(){
+
+  if(
+    preferenceOrder.length < 2
+  ){
+    return;
+  }
+
+
+  preferenceItems
+    .forEach(item=>{
+
+      let value = 4;
+
+
+      if(
+        item.key ===
+        preferenceOrder[0]
+      ){
+
+        value = 10;
+
+      }
+
+
+      if(
+        item.key ===
+        preferenceOrder[1]
+      ){
+
+        value = 7;
+
+      }
+
+
+      const input =
+        document.getElementById(
+          `weight-${item.key}`
+        );
+
+
+      if(input){
+
+        input.value = value;
+
+      }
+
+    });
+
+}
+
+
+function buildAdvancedWeight(){
+
+  document
+    .getElementById(
+      "advancedWeight"
+    )
+    .innerHTML =
+
+    preferenceItems
+      .map(item=>`
+
+        <div class="weight-row">
+
+          <label>
+            ${item.name}
+          </label>
+
+          <input
+            type="range"
+            min="0"
+            max="10"
+            value="5"
+            id="weight-${item.key}"
+            oninput="manualWeightChange()"
+          >
+
+          <div
+            class="weight-percent"
+            id="weight-percent-${item.key}"
+          >
+            20%
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+function toggleAdvancedWeight(){
+
+  const box =
+    document.getElementById(
+      "advancedWeight"
+    );
+
+
+  box.classList.toggle("show");
+
+
+  customWeightMode =
+    box.classList.contains("show");
+
+
+  saveState();
+
+}
+
+
+function manualWeightChange(){
+
+  customWeightMode = true;
+
+  refreshWeights();
+
+  saveState();
+
+}
+
+
+function getWeights(){
+
+  const raw = {};
+
+
+  preferenceItems
+    .forEach(item=>{
+
+      raw[item.key] =
+        Number(
+          document
+            .getElementById(
+              `weight-${item.key}`
+            )
+            .value
+        )
+        ||
+        0;
+
+    });
+
+
+  let total =
+    Object
+      .values(raw)
+      .reduce(
+        (sum,v)=>sum+v,
+        0
+      );
+
+
+  if(total <= 0){
+
+    total = 1;
+
+  }
+
+
+  const result = {};
+
+
+  Object
+    .keys(raw)
+    .forEach(key=>{
+
+      result[key] =
+        raw[key] / total;
+
+    });
+
+
+  return result;
+
+}
+
+
+function refreshWeights(){
+
+  const weights =
+    getWeights();
+
+
+  document
+    .getElementById(
+      "weightChips"
+    )
+    .innerHTML =
+
+    preferenceItems
+      .map(item=>`
+
+        <span class="weight-chip">
+
+          ${item.name}
+          ${Math.round(
+            weights[item.key] * 100
+          )}%
+
+        </span>
+
+      `)
+      .join("");
+
+
+  preferenceItems
+    .forEach(item=>{
+
+      const label =
+        document.getElementById(
+          `weight-percent-${item.key}`
+        );
+
+
+      if(label){
+
+        label.textContent =
+          Math.round(
+            weights[item.key]
+            *
+            100
+          )
+          +
+          "%";
+
+      }
+
+    });
+
+}
+
+
+function finishPreference(){
+
+  if(
+    preferenceOrder.length < 2
+    &&
+    !customWeightMode
+  ){
+
+    toast(
+      "请先选择你最看重的两项"
+    );
+
+    return;
+
+  }
+
+
+  goStep(2);
+
+}
+
+
+/* =========================================================
+   STEP 2
+========================================================= */
+
+function buildMoneyForm(){
+
+  const fields = [
+
+    {
+      key:"name",
+      label:"公司 / Offer 名称",
+      type:"text",
+      placeholderA:"例如：A公司",
+      placeholderB:"例如：B公司"
+    },
+
+    {
+      key:"monthlySalary",
+      label:"税前月薪",
+      unit:"元"
+    },
+
+    {
+      key:"salaryMonths",
+      label:"固定薪资月数",
+      help:"例如 13 薪就填 13",
+      unit:"薪",
+      value:12,
+      step:.5
+    },
+
+    {
+      key:"annualBonus",
+      label:"额外奖金",
+      help:"不包含已经算入 13 薪、14 薪的固定多薪",
+      unit:"元/年",
+      value:0
+    },
+
+    {
+      key:"monthlyAllowance",
+      label:"固定现金补贴",
+      help:"例如交通、住房、餐补等固定现金",
+      unit:"元/月",
+      value:0
+    }
+
+  ];
+
+
+  document
+    .getElementById(
+      "moneyForm"
+    )
+    .innerHTML =
+
+    fields
+      .map(field=>
+        pairField(field)
+      )
+      .join("");
+
+}
+
+
+function finishMoney(){
+
+  if(
+    num("a_monthlySalary") <= 0
+    ||
+    num("b_monthlySalary") <= 0
+  ){
+
+    toast(
+      "请先填写两个 Offer 的月薪"
+    );
+
+    return;
+
+  }
+
+
+  goStep(3);
+
+}
+
+
+/* =========================================================
+   STEP 3
+========================================================= */
+
+function buildTimeForm(){
+
+  const fields = [
+
+    {
+      key:"weeklyDays",
+      label:"每周工作天数",
+      help:"双休填 5，大小周可填 5.5",
+      unit:"天",
+      value:5,
+      step:.5
+    },
+
+    {
+      key:"dailyHours",
+      label:"每天常规工作时长",
+      help:"不包含通勤时间",
+      unit:"小时",
+      value:8,
+      step:.5
+    },
+
+    {
+      key:"weeklyOvertime",
+      label:"平均每周额外加班",
+      help:"正常工作时间之外额外投入的时间",
+      unit:"小时",
+      value:0,
+      step:.5
+    },
+
+    {
+      key:"oneWayCommute",
+      label:"单程通勤时间",
+      unit:"分钟",
+      value:30
+    },
+
+    {
+      key:"annualLeave",
+      label:"每年带薪年假",
+      unit:"天",
+      value:5
+    }
+
+  ];
+
+
+  document
+    .getElementById(
+      "timeForm"
+    )
+    .innerHTML =
+
+    fields
+      .map(field=>
+        pairField(field)
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   GENERIC FORM
+========================================================= */
+
+function pairField(field){
+
+  return `
+
+    <div class="form-row">
+
+      <div class="form-label">
+
+        <strong>
+          ${field.label}
+        </strong>
+
+        ${
+          field.help
+            ?
+            `<small>${field.help}</small>`
+            :
+            ""
+        }
+
+      </div>
+
+
+      <div class="pair">
+
+        ${inputHTML(
+          "a",
+          field
+        )}
+
+        ${inputHTML(
+          "b",
+          field
+        )}
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function inputHTML(
+  prefix,
+  field
+){
+
+  const type =
+    field.type || "number";
+
+
+  let placeholder = "";
+
+
+  if(prefix === "a"){
+
+    placeholder =
+      field.placeholderA || "";
+
+  }
+
+
+  if(prefix === "b"){
+
+    placeholder =
+      field.placeholderB || "";
+
+  }
+
+
+  return `
+
+    <div class="input-wrap">
+
+      <input
+        type="${type}"
+        id="${prefix}_${field.key}"
+        data-save
+        class="
+          field-input
+          ${
+            field.unit
+              ?
+              "with-unit"
+              :
+              ""
+          }
+        "
+        value="${
+          field.value !== undefined
+            ?
+            field.value
+            :
+            ""
+        }"
+        placeholder="${placeholder}"
+        ${
+          field.step
+            ?
+            `step="${field.step}"`
+            :
+            ""
+        }
+      >
+
+      ${
+        field.unit
+          ?
+          `<span class="unit">${field.unit}</span>`
+          :
+          ""
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   STEP 4
+========================================================= */
+
+function buildQualityForm(){
+
+  document
+    .getElementById(
+      "qualityForm"
+    )
+    .innerHTML =
+
+    qualityItems
+      .map(item=>`
+
+        <div class="rating-box">
+
+          <div class="rating-title">
+            ${item.name}
+          </div>
+
+          <div class="rating-help">
+            ${item.desc}
+          </div>
+
+
+          ${ratingLine(
+            "a",
+            item.key
+          )}
+
+
+          ${ratingLine(
+            "b",
+            item.key
+          )}
+
+        </div>
+
+      `)
+      .join("");
+
+
+  qualityItems
+    .forEach(item=>{
+
+      setRating(
+        "a",
+        item.key,
+        3,
+        false
+      );
+
+
+      setRating(
+        "b",
+        item.key,
+        3,
+        false
+      );
+
+    });
+
+}
+
+
+function ratingLine(
+  prefix,
+  key
+){
+
+  return `
+
+    <div class="rating-line">
+
+      <div
+        class="rating-company ${prefix}"
+      >
+        ${
+          prefix === "a"
+            ?
+            "Offer A"
+            :
+            "Offer B"
+        }
+      </div>
+
+
+      <div class="rate-options">
+
+        ${
+          [1,2,3,4,5]
+            .map(value=>`
+
+              <button
+                type="button"
+                class="rate"
+                id="rate-${prefix}-${key}-${value}"
+                onclick="setRating('${prefix}','${key}',${value},true)"
+              >
+                ${value}
+              </button>
+
+            `)
+            .join("")
+        }
+
+      </div>
+
+
+      <input
+        type="hidden"
+        id="${prefix}_${key}"
+        value="3"
+        data-save
+      >
+
+    </div>
+
+  `;
+
+}
+
+
+function setRating(
+  prefix,
+  key,
+  value,
+  shouldSave=true
+){
+
+  const hidden =
+    document.getElementById(
+      `${prefix}_${key}`
+    );
+
+
+  if(hidden){
+
+    hidden.value = value;
+
+  }
+
+
+  for(
+    let i=1;
+    i<=5;
+    i++
+  ){
+
+    const button =
+      document.getElementById(
+        `rate-${prefix}-${key}-${i}`
+      );
+
+
+    if(!button){
+
+      continue;
+
+    }
+
+
+    button.classList.remove(
+      "a-selected",
+      "b-selected"
+    );
+
+
+    if(i === Number(value)){
+
+      button.classList.add(
+        prefix === "a"
+          ?
+          "a-selected"
+          :
+          "b-selected"
+      );
+
+    }
+
+  }
+
+
+  if(shouldSave){
+
+    saveState();
+
+  }
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function num(id){
+
+  return Number(
+    document
+      .getElementById(id)
+      ?.value
+  )
+  ||
+  0;
+
+}
+
+
+function text(id){
+
+  return (
+    document
+      .getElementById(id)
+      ?.value
+    ||
+    ""
+  ).trim();
+
+}
+
+
+function clamp(
+  value,
+  min,
+  max
+){
+
+  return Math.max(
+    min,
+    Math.min(
+      max,
+      value
+    )
+  );
+
+}
+
+
+function money(value){
+
+  return (
+    "¥"
+    +
+    Math.round(value)
+      .toLocaleString("zh-CN")
+  );
+
+}
+
+
+function one(value){
+
+  return Number(value)
+    .toFixed(1);
+
+}
+
+
+function nameOf(prefix){
+
+  return (
+    text(`${prefix}_name`)
+    ||
+    (
+      prefix === "a"
+        ?
+        "Offer A"
+        :
+        "Offer B"
+    )
+  );
+
+}
+
+
+/* =========================================================
+   CALCULATION
+========================================================= */
+
+function readOffer(prefix){
+
+  const weeklyDays =
+    num(
+      `${prefix}_weeklyDays`
+    );
+
+
+  const workingDays =
+
+    Math.max(
+
+      0,
+
+      weeklyDays * 52
+      -
+      num(
+        `${prefix}_annualLeave`
+      )
+
+    );
+
+
+  const annualIncome =
+
+    num(
+      `${prefix}_monthlySalary`
+    )
+
+    *
+
+    num(
+      `${prefix}_salaryMonths`
+    )
+
+    +
+
+    num(
+      `${prefix}_annualBonus`
+    )
+
+    +
+
+    num(
+      `${prefix}_monthlyAllowance`
+    )
+    *
+    12;
+
+
+  const regularHours =
+
+    workingDays
+
+    *
+
+    num(
+      `${prefix}_dailyHours`
+    );
+
+
+  const overtimeHours =
+
+    num(
+      `${prefix}_weeklyOvertime`
+    )
+
+    *
+
+    52;
+
+
+  const annualWorkHours =
+
+    regularHours
+    +
+    overtimeHours;
+
+
+  const annualCommuteHours =
+
+    workingDays
+
+    *
+
+    2
+
+    *
+
+    num(
+      `${prefix}_oneWayCommute`
+    )
+
+    /
+
+    60;
+
+
+  const occupiedHours =
+
+    annualWorkHours
+    +
+    annualCommuteHours;
+
+
+  const realHourly =
+
+    occupiedHours > 0
+
+      ?
+
+      annualIncome
+      /
+      occupiedHours
+
+      :
+
+      0;
+
+
+  const weeklyWorkHours =
+
+    weeklyDays
+
+    *
+
+    num(
+      `${prefix}_dailyHours`
+    )
+
+    +
+
+    num(
+      `${prefix}_weeklyOvertime`
+    );
+
+
+  return {
+
+    name:
+      nameOf(prefix),
+
+    annualIncome,
+
+    annualWorkHours,
+
+    annualCommuteHours,
+
+    occupiedHours,
+
+    realHourly,
+
+    weeklyWorkHours,
+
+    commuteMin:
+      num(
+        `${prefix}_oneWayCommute`
+      ),
+
+    ratings:{
+
+      growth:
+        num(
+          `${prefix}_growth`
+        ),
+
+      fit:
+        num(
+          `${prefix}_fit`
+        ),
+
+      industry:
+        num(
+          `${prefix}_industry`
+        ),
+
+      manager:
+        num(
+          `${prefix}_manager`
+        ),
+
+      stability:
+        num(
+          `${prefix}_stability`
+        ),
+
+      balance:
+        num(
+          `${prefix}_balance`
+        )
+
+    }
+
+  };
+
+}
+
+
+function growthScore(o){
+
+  return (
+
+    o.ratings.growth
+    *
+    .35
+
+    +
+
+    o.ratings.fit
+    *
+    .30
+
+    +
+
+    o.ratings.industry
+    *
+    .20
+
+    +
+
+    o.ratings.manager
+    *
+    .15
+
+  );
+
+}
+
+
+function lifeScore(o){
+
+  const objective =
+
+    clamp(
+
+      5
+
+      -
+
+      Math.max(
+        0,
+        o.weeklyWorkHours - 40
+      )
+
+      /
+
+      5,
+
+      1,
+
+      5
+
+    );
+
+
+  return (
+
+    o.ratings.balance
+    *
+    .7
+
+    +
+
+    objective
+    *
+    .3
+
+  );
+
+}
+
+
+function commuteScore(o){
+
+  return clamp(
+
+    5
+    -
+    o.commuteMin / 25,
+
+    1,
+
+    5
+
+  );
+
+}
+
+
+function buildDimensions(
+  a,
+  b
+){
+
+  const maxIncome =
+
+    Math.max(
+      a.annualIncome,
+      b.annualIncome,
+      1
+    );
+
+
+  const build =
+    o=>({
+
+      income:
+        o.annualIncome
+        /
+        maxIncome
+        *
+        5,
+
+      growth:
+        growthScore(o),
+
+      life:
+        lifeScore(o),
+
+      stability:
+        o.ratings.stability,
+
+      commute:
+        commuteScore(o)
+
+    });
+
+
+  return {
+
+    a:
+      build(a),
+
+    b:
+      build(b)
+
+  };
+
+}
+
+
+function matchIndex(
+  dimensions,
+  weights
+){
+
+  return (
+
+    dimensions.income
+    *
+    weights.income
+
+    +
+
+    dimensions.growth
+    *
+    weights.growth
+
+    +
+
+    dimensions.life
+    *
+    weights.life
+
+    +
+
+    dimensions.stability
+    *
+    weights.stability
+
+    +
+
+    dimensions.commute
+    *
+    weights.commute
+
+  )
+
+  /
+
+  5
+
+  *
+
+  100;
+
+}
+
+
+/* =========================================================
+   TRADEOFF
+========================================================= */
+
+function buildTradeoffs(
+  a,
+  b
+){
+
+  const result = [];
+
+
+  const incomeDiff =
+
+    a.annualIncome
+    -
+    b.annualIncome;
+
+
+  if(
+    Math.abs(incomeDiff)
+    >=
+    3000
+  ){
+
+    const high =
+
+      incomeDiff > 0
+        ?
+        a
+        :
+        b;
+
+
+    const low =
+
+      incomeDiff > 0
+        ?
+        b
+        :
+        a;
+
+
+    const extraMoney =
+
+      Math.abs(incomeDiff);
+
+
+    const commuteDiff =
+
+      high.annualCommuteHours
+      -
+      low.annualCommuteHours;
+
+
+    if(
+      commuteDiff >= 30
+    ){
+
+      result.push({
+
+        strength:
+          commuteDiff,
+
+        title:
+
+          `${high.name} 多赚 ${money(extraMoney)}，但通勤时间更多`,
+
+        text:
+
+          `${high.name} 每年预计多花 ${Math.round(commuteDiff)} 小时通勤。仅比较这部分差异，相当于每增加 1 小时通勤，换回约 ${money(extraMoney / commuteDiff)}。`
+
+      });
+
+    }
+
+
+    const workDiff =
+
+      high.annualWorkHours
+      -
+      low.annualWorkHours;
+
+
+    if(
+      workDiff >= 50
+    ){
+
+      result.push({
+
+        strength:
+          workDiff,
+
+        title:
+
+          `${high.name} 多赚 ${money(extraMoney)}，同时工作时间更长`,
+
+        text:
+
+          `${high.name} 每年预计多投入 ${Math.round(workDiff)} 小时工作时间。仅看这部分差异，相当于每增加 1 小时工作，换回约 ${money(extraMoney / workDiff)}。`
+
+      });
+
+    }
+
+
+    const growthDiff =
+
+      growthScore(low)
+      -
+      growthScore(high);
+
+
+    if(
+      growthDiff >= .5
+    ){
+
+      result.push({
+
+        strength:
+          growthDiff
+          *
+          100,
+
+        title:
+          "更高收入和长期成长出现了方向冲突",
+
+        text:
+
+          `${high.name} 的收入更高，但 ${low.name} 的成长评价更好。你真正需要判断的，是现阶段更需要确定的现金回报，还是更大的长期发展空间。`
+
+      });
+
+    }
+
+
+    const lifeDiff =
+
+      lifeScore(low)
+      -
+      lifeScore(high);
+
+
+    if(
+      lifeDiff >= .5
+    ){
+
+      result.push({
+
+        strength:
+          lifeDiff
+          *
+          100,
+
+        title:
+          "更高收入需要交换更多生活时间",
+
+        text:
+
+          `${high.name} 的收入更高，但 ${low.name} 在工作生活维度更有优势。差异主要来自工时、加班以及工作节奏。`
+
+      });
+
+    }
+
+  }
+
+
+  const hourlyDiff =
+
+    a.realHourly
+    -
+    b.realHourly;
+
+
+  if(
+    Math.abs(hourlyDiff)
+    >=
+    5
+  ){
+
+    const high =
+
+      hourlyDiff > 0
+        ?
+        a
+        :
+        b;
+
+
+    const low =
+
+      hourlyDiff > 0
+        ?
+        b
+        :
+        a;
+
+
+    if(
+      high.annualIncome
+      <
+      low.annualIncome
+    ){
+
+      result.push({
+
+        strength:
+          Math.abs(hourlyDiff)
+          *
+          10,
+
+        title:
+
+          `${high.name} 总收入更低，但单位时间价值更高`,
+
+        text:
+
+          `${high.name} 的真实时薪约 ¥${one(high.realHourly)}/h，而 ${low.name} 约 ¥${one(low.realHourly)}/h。收入少一些，但占用你的时间也明显更少。`
+
+      });
+
+    }
+
+  }
+
+
+  if(
+    result.length === 0
+  ){
+
+    result.push({
+
+      strength:1,
+
+      title:
+        "两份 Offer 没有出现特别明显的“钱换时间”冲突",
+
+      text:
+        "目前差异更多分散在成长、稳定性、岗位匹配和工作体验等条件上。"
+
+    });
+
+  }
+
+
+  return result
+
+    .sort(
+      (x,y)=>
+        y.strength
+        -
+        x.strength
+    )
+
+    .slice(0,3);
+
+}
+
+
+/* =========================================================
+   INSIGHTS
+========================================================= */
+
+function buildInsights(
+  a,
+  b,
+  da,
+  db
+){
+
+  const items = [];
+
+
+  const add =
+    (strength,text)=>{
+
+      items.push({
+        strength,
+        text
+      });
+
+    };
+
+
+  const income =
+
+    a.annualIncome
+    -
+    b.annualIncome;
+
+
+  if(
+    Math.abs(income)
+    >=
+    1000
+  ){
+
+    add(
+
+      Math.abs(income),
+
+      `${
+        income > 0
+          ?
+          a.name
+          :
+          b.name
+      } 的年现金收入约多 ${money(Math.abs(income))}`
+
+    );
+
+  }
+
+
+  const commute =
+
+    a.annualCommuteHours
+    -
+    b.annualCommuteHours;
+
+
+  if(
+    Math.abs(commute)
+    >=
+    10
+  ){
+
+    add(
+
+      Math.abs(commute)
+      *
+      100,
+
+      `${
+        commute < 0
+          ?
+          a.name
+          :
+          b.name
+      } 每年预计少花 ${Math.round(Math.abs(commute))} 小时通勤`
+
+    );
+
+  }
+
+
+  const work =
+
+    a.annualWorkHours
+    -
+    b.annualWorkHours;
+
+
+  if(
+    Math.abs(work)
+    >=
+    30
+  ){
+
+    add(
+
+      Math.abs(work)
+      *
+      100,
+
+      `${
+        work < 0
+          ?
+          a.name
+          :
+          b.name
+      } 每年预计少投入 ${Math.round(Math.abs(work))} 小时工作时间`
+
+    );
+
+  }
+
+
+  const hourly =
+
+    a.realHourly
+    -
+    b.realHourly;
+
+
+  if(
+    Math.abs(hourly)
+    >=
+    1
+  ){
+
+    add(
+
+      Math.abs(hourly)
+      *
+      1000,
+
+      `${
+        hourly > 0
+          ?
+          a.name
+          :
+          b.name
+      } 的真实时薪高约 ¥${one(Math.abs(hourly))}/h`
+
+    );
+
+  }
+
+
+  const growth =
+
+    da.growth
+    -
+    db.growth;
+
+
+  if(
+    Math.abs(growth)
+    >=
+    .3
+  ){
+
+    add(
+
+      Math.abs(growth)
+      *
+      5000,
+
+      `${
+        growth > 0
+          ?
+          a.name
+          :
+          b.name
+      } 的成长综合评价更高`
+
+    );
+
+  }
+
+
+  return items
+
+    .sort(
+      (x,y)=>
+        y.strength
+        -
+        x.strength
+    )
+
+    .slice(0,5);
+
+}
+
+
+/* =========================================================
+   VERDICT
+========================================================= */
+
+function topPreferences(
+  weights
+){
+
+  const labels = {
+
+    income:"收入",
+    growth:"成长",
+    life:"工作生活",
+    stability:"稳定性",
+    commute:"通勤"
+
+  };
+
+
+  return Object
+    .entries(weights)
+
+    .sort(
+      (a,b)=>
+        b[1]
+        -
+        a[1]
+    )
+
+    .slice(0,2)
+
+    .map(
+      ([key])=>
+        labels[key]
+    );
+
+}
+
+
+function verdict(
+  a,
+  b,
+  aScore,
+  bScore,
+  weights
+){
+
+  const top =
+    topPreferences(
+      weights
+    );
+
+
+  if(
+    Math.abs(
+      aScore
+      -
+      bScore
+    )
+    <
+    3
+  ){
+
+    return {
+
+      title:
+        "两份 Offer 的整体匹配度非常接近。",
+
+      detail:
+
+        `你目前最重视的是「${top[0]}」和「${top[1]}」。两边并没有真正拉开差距，现在最有价值的是继续确认那些你还不了解的信息。`
+
+    };
+
+  }
+
+
+  const winner =
+
+    aScore > bScore
+      ?
+      a
+      :
+      b;
+
+
+  const other =
+
+    aScore > bScore
+      ?
+      b
+      :
+      a;
+
+
+  return {
+
+    title:
+
+      `按照你当前最看重的条件，${winner.name} 的匹配度更高。`,
+
+    detail:
+
+      `你目前最重视的是「${top[0]}」和「${top[1]}」。${winner.name} 在这些条件组合下更符合你的偏好，但 ${other.name} 仍然可能在部分单项条件上更有吸引力。`
+
+  };
+
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+function calculateResult(){
+
+  const a =
+    readOffer("a");
+
+
+  const b =
+    readOffer("b");
+
+
+  if(
+    a.annualIncome <= 0
+    ||
+    b.annualIncome <= 0
+  ){
+
+    toast(
+      "前面的收入信息还没有填写完整"
+    );
+
+    return;
+
+  }
+
+
+  const weights =
+    getWeights();
+
+
+  const dimensions =
+    buildDimensions(
+      a,
+      b
+    );
+
+
+  const aScore =
+    matchIndex(
+      dimensions.a,
+      weights
+    );
+
+
+  const bScore =
+    matchIndex(
+      dimensions.b,
+      weights
+    );
+
+
+  lastResult = {
+
+    a,
+    b,
+
+    weights,
+
+    da:
+      dimensions.a,
+
+    db:
+      dimensions.b,
+
+    aScore,
+    bScore,
+
+    verdict:
+      verdict(
+        a,
+        b,
+        aScore,
+        bScore,
+        weights
+      ),
+
+    tradeoffs:
+      buildTradeoffs(
+        a,
+        b
+      ),
+
+    insights:
+      buildInsights(
+        a,
+        b,
+        dimensions.a,
+        dimensions.b
+      )
+
+  };
+
+
+  renderResult();
+
+  showResult();
+
+}
+
+
+function renderResult(){
+
+  const r =
+    lastResult;
+
+
+  const maxIncome =
+
+    Math.max(
+      r.a.annualIncome,
+      r.b.annualIncome,
+      1
+    );
+
+
+  const exchanges =
+
+    r.tradeoffs
+      .map(item=>`
+
+        <div class="exchange-item">
+
+          <strong>
+            ${item.title}
+          </strong>
+
+          <p>
+            ${item.text}
+          </p>
+
+        </div>
+
+      `)
+      .join("");
+
+
+  const insights =
+
+    r.insights
+      .map(
+        item=>
+          `<li>${item.text}</li>`
+      )
+      .join("");
+
+
+  document
+    .getElementById(
+      "resultContent"
+    )
+    .innerHTML = `
+
+
+      <div class="score-wallet">
+
+        <div class="score-wallet-label">
+          preference match
+        </div>
+
+
+        <div class="score-panel">
+
+          <div class="score-col">
+
+            <div class="score-company">
+              ${r.a.name}
+            </div>
+
+            <div class="score-number">
+              ${Math.round(r.aScore)}
+            </div>
+
+            <div class="score-caption">
+              偏好匹配指数
+            </div>
+
+          </div>
+
+
+          <div class="score-vs">
+            VS
+          </div>
+
+
+          <div class="score-col">
+
+            <div class="score-company">
+              ${r.b.name}
+            </div>
+
+            <div class="score-number">
+              ${Math.round(r.bScore)}
+            </div>
+
+            <div class="score-caption">
+              偏好匹配指数
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="result-conclusion">
+
+        <strong>
+          ${r.verdict.title}
+        </strong>
+
+        <p>
+          ${r.verdict.detail}
+        </p>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <div class="result-section-title">
+          真实数据
+        </div>
+
+
+        <div class="data-grid">
+
+          ${dataCard(
+            r.a.name + " 年收入",
+            money(
+              r.a.annualIncome
+            )
+          )}
+
+          ${dataCard(
+            r.b.name + " 年收入",
+            money(
+              r.b.annualIncome
+            )
+          )}
+
+          ${dataCard(
+            r.a.name + " 真实时薪",
+            "¥"
+            +
+            one(
+              r.a.realHourly
+            )
+            +
+            "/h"
+          )}
+
+          ${dataCard(
+            r.b.name + " 真实时薪",
+            "¥"
+            +
+            one(
+              r.b.realHourly
+            )
+            +
+            "/h"
+          )}
+
+          ${dataCard(
+            r.a.name + " 年工作时间",
+            Math.round(
+              r.a.annualWorkHours
+            )
+            +
+            "h"
+          )}
+
+          ${dataCard(
+            r.b.name + " 年工作时间",
+            Math.round(
+              r.b.annualWorkHours
+            )
+            +
+            "h"
+          )}
+
+          ${dataCard(
+            r.a.name + " 年通勤",
+            Math.round(
+              r.a.annualCommuteHours
+            )
+            +
+            "h"
+          )}
+
+          ${dataCard(
+            r.b.name + " 年通勤",
+            Math.round(
+              r.b.annualCommuteHours
+            )
+            +
+            "h"
+          )}
+
+        </div>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <div class="result-section-title">
+          你真正交换掉了什么？
+        </div>
+
+
+        <div class="exchange-box">
+          ${exchanges}
+        </div>
+
+      </div>
+
+
+      <div class="result-section">
+
+        <div class="result-section-title">
+          五个核心条件
+        </div>
+
+
+        ${compareBlock(
+
+          "收入",
+
+          r.a.name,
+
+          money(
+            r.a.annualIncome
+          ),
+
+          r.a.annualIncome
+          /
+          maxIncome,
+
+          r.b.name,
+
+          money(
+            r.b.annualIncome
+          ),
+
+          r.b.annualIncome
+          /
+          maxIncome
+
+        )}
+
+
+        ${compareBlock(
+
+          "成长",
+
+          r.a.name,
+
+          one(
+            r.da.growth
+          )
+          +
+          "/5",
+
+          r.da.growth
+          /
+          5,
+
+          r.b.name,
+
+          one(
+            r.db.growth
+          )
+          +
+          "/5",
+
+          r.db.growth
+          /
+          5
+
+        )}
+
+
+        ${compareBlock(
+
+          "工作生活",
+
+          r.a.name,
+
+          "周 "
+          +
+          one(
+            r.a.weeklyWorkHours
+          )
+          +
+          "h",
+
+          r.da.life
+          /
+          5,
+
+          r.b.name,
+
+          "周 "
+          +
+          one(
+            r.b.weeklyWorkHours
+          )
+          +
+          "h",
+
+          r.db.life
+          /
+          5
+
+        )}
+
+
+        ${compareBlock(
+
+          "稳定性",
+
+          r.a.name,
+
+          r.a.ratings.stability
+          +
+          "/5",
+
+          r.a.ratings.stability
+          /
+          5,
+
+          r.b.name,
+
+          r.b.ratings.stability
+          +
+          "/5",
+
+          r.b.ratings.stability
+          /
+          5
+
+        )}
+
+
+        ${compareBlock(
+
+          "单程通勤",
+
+          r.a.name,
+
+          Math.round(
+            r.a.commuteMin
+          )
+          +
+          "min",
+
+          r.da.commute
+          /
+          5,
+
+          r.b.name,
+
+          Math.round(
+            r.b.commuteMin
+          )
+          +
+          "min",
+
+          r.db.commute
+          /
+          5
+
+        )}
+
+      </div>
+
+
+      <div class="result-section">
+
+        <div class="result-section-title">
+          最值得关注的差异
+        </div>
+
+
+        <div class="insight-panel">
+
+          <ul class="insight-list">
+            ${insights}
+          </ul>
+
+        </div>
+
+      </div>
+
+  `;
+
+}
+
+
+function dataCard(
+  label,
+  value
+){
+
+  return `
+
+    <div class="data-card">
+
+      <span>
+        ${label}
+      </span>
+
+      <strong>
+        ${value}
+      </strong>
+
+    </div>
+
+  `;
+
+}
+
+
+function compareBlock(
+  title,
+
+  aName,
+  aValue,
+  aRatio,
+
+  bName,
+  bValue,
+  bRatio
+){
+
+  return `
+
+    <div class="compare-block">
+
+      <div class="compare-title">
+        ${title}
+      </div>
+
+
+      <div class="compare-line">
+
+        <div class="compare-name">
+          ${aName}
+        </div>
+
+
+        <div class="compare-track">
+
+          <div
+            class="compare-fill a"
+            style="
+              width:${
+                clamp(
+                  aRatio,
+                  0,
+                  1
+                )
+                *
+                100
+              }%
+            "
+          ></div>
+
+        </div>
+
+
+        <div class="compare-value">
+          ${aValue}
+        </div>
+
+      </div>
+
+
+      <div class="compare-line">
+
+        <div class="compare-name">
+          ${bName}
+        </div>
+
+
+        <div class="compare-track">
+
+          <div
+            class="compare-fill b"
+            style="
+              width:${
+                clamp(
+                  bRatio,
+                  0,
+                  1
+                )
+                *
+                100
+              }%
+            "
+          ></div>
+
+        </div>
+
+
+        <div class="compare-value">
+          ${bValue}
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   COPY
+========================================================= */
+
+function copySummary(){
+
+  if(!lastResult){
+
+    return;
+
+  }
+
+
+  const r =
+    lastResult;
+
+
+  const exchanges =
+
+    r.tradeoffs
+      .map(item=>
+        `• ${item.title}\n${item.text}`
+      )
+      .join("\n\n");
+
+
+  const output = `
+
+${r.a.name}
+偏好匹配指数：${Math.round(r.aScore)}
+年收入：${money(r.a.annualIncome)}
+真实时薪：¥${one(r.a.realHourly)}/h
+年工作时间：${Math.round(r.a.annualWorkHours)}h
+年通勤：${Math.round(r.a.annualCommuteHours)}h
+
+${r.b.name}
+偏好匹配指数：${Math.round(r.bScore)}
+年收入：${money(r.b.annualIncome)}
+真实时薪：¥${one(r.b.realHourly)}/h
+年工作时间：${Math.round(r.b.annualWorkHours)}h
+年通勤：${Math.round(r.b.annualCommuteHours)}h
+
+结论：
+${r.verdict.title}
+
+关键交换：
+${exchanges}
+
+  `.trim();
+
+
+  navigator
+    .clipboard
+    .writeText(output)
+
+    .then(
+      ()=>toast(
+        "结果已复制"
+      )
+    )
+
+    .catch(
+      ()=>toast(
+        "复制失败，请直接截图"
+      )
+    );
+
+}
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function bindSaveEvents(){
+
+  document
+    .querySelectorAll(
+      "[data-save]"
+    )
+    .forEach(el=>{
+
+      if(
+        el.dataset.bound
+        ===
+        "1"
+      ){
+
+        return;
+
+      }
+
+
+      el.dataset.bound =
+        "1";
+
+
+      el.addEventListener(
+        "input",
+        saveState
+      );
+
+    });
+
+}
+
+
+function saveState(){
+
+  const values = {};
+
+
+  document
+    .querySelectorAll(
+      "[data-save]"
+    )
+    .forEach(el=>{
+
+      values[el.id] =
+        el.value;
+
+    });
+
+
+  const weights = {};
+
+
+  preferenceItems
+    .forEach(item=>{
+
+      const el =
+        document.getElementById(
+          `weight-${item.key}`
+        );
+
+
+      if(el){
+
+        weights[item.key] =
+          el.value;
+
+      }
+
+    });
+
+
+  localStorage
+    .setItem(
+
+      STORE_KEY,
+
+      JSON.stringify({
+
+        preferenceOrder,
+
+        customWeightMode,
+
+        values,
+
+        weights
+
+      })
+
+    );
+
+}
+
+
+function loadState(){
+
+  let state = {};
+
+
+  try{
+
+    state =
+      JSON.parse(
+
+        localStorage
+          .getItem(
+            STORE_KEY
+          )
+
+        ||
+
+        "{}"
+
+      );
+
+  }catch(e){}
+
+
+  if(
+    Array.isArray(
+      state.preferenceOrder
+    )
+  ){
+
+    preferenceOrder =
+      state.preferenceOrder;
+
+  }
+
+
+  customWeightMode =
+    !!state.customWeightMode;
+
+
+  if(state.weights){
+
+    Object
+      .entries(state.weights)
+      .forEach(
+        ([key,value])=>{
+
+          const el =
+            document.getElementById(
+              `weight-${key}`
+            );
+
+
+          if(el){
+
+            el.value = value;
+
+          }
+
+        }
+      );
+
+  }
+
+
+  if(state.values){
+
+    Object
+      .entries(state.values)
+      .forEach(
+        ([id,value])=>{
+
+          const el =
+            document.getElementById(
+              id
+            );
+
+
+          if(el){
+
+            el.value = value;
+
+          }
+
+        }
+      );
+
+  }
+
+
+  qualityItems
+    .forEach(item=>{
+
+      ["a","b"]
+        .forEach(prefix=>{
+
+          const value =
+            num(
+              `${prefix}_${item.key}`
+            )
+            ||
+            3;
+
+
+          setRating(
+            prefix,
+            item.key,
+            value,
+            false
+          );
+
+        });
+
+    });
+
+
+  if(customWeightMode){
+
+    document
+      .getElementById(
+        "advancedWeight"
+      )
+      .classList
+      .add("show");
+
+  }
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function toast(message){
+
+  const el =
+    document.getElementById(
+      "toast"
+    );
+
+
+  el.textContent =
+    message;
+
+
+  el.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.toastTimer
+  );
+
+
+  window.toastTimer =
+    setTimeout(
+      ()=>{
+
+        el.classList.remove(
+          "show"
+        );
+
+      },
+      1600
+    );
+
+}
+
+</script>
+
+</body>
+</html>
